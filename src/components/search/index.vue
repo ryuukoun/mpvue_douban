@@ -2,6 +2,11 @@
   .page
     .page__bd
       .weui-search-bar
+        .custom-location
+          .custom-city(@click="getPos")
+            i.fa.fa-map-marker
+            |
+            | {{ city }}
         .weui-search-bar__form
           .weui-search-bar__box
             icon.weui-icon-search_in-box(type="search", size="14")
@@ -10,23 +15,37 @@
               icon(type="clear", size="14")
           label.weui-search-bar__label(:hidden="inputShowed", @click="showInput")
             icon.weui-icon-search(type="search", size="14")
-            .weui-search-bar__text 搜索
+            .weui-search-bar__text 搜索电影
         .weui-search-bar__cancel-btn(:hidden="!inputShowed", @click="hideInput") 取消
       .weui-cells.searchbar-result(v-if="searchResult.length > 0")
-        navigator.weui-cell(url="", hover-class="weui-cell_active", v-for="item in searchResult" :key="item.id")
-          .weui-cell__bd
-            div {{item.title}}
+        .custom-cell
+          navigator.weui-cell(url="", hover-class="weui-cell_active", v-for="item in searchResult" :key="item.id")
+            .weui-cell__bd
+              div.custom-result {{item.title}}
+
 </template>
 
 <script>
+
+import store from '@/store'
+import {mapState, mapMutations} from 'vuex'
+
+// 创建amap实例 高德api配置
+const Map = require('@/common/sdk/map')
+
 export default {
+  store,
   data () {
     return {
       inputShowed: false,
       inputVal: '',
       timer: '',
-      searchResult: []
+      searchResult: [],
+      city: '定位中...'
     }
+  },
+  onLoad: function () {
+    this.getPos()
   },
   methods: {
     // 显示搜索框的时候
@@ -40,11 +59,15 @@ export default {
       this.inputVal = ''
       // 更改标记显示状态
       this.inputShowed = false
+      // 搜索值清空
+      this.searchResult = []
     },
     // 清除搜索框内容
     clearInput () {
       // 点击清除搜索框时控件值为空
       this.inputVal = ''
+      // 搜索值清空
+      this.searchResult = []
     },
     inputTyping (e) {
       // 输入时
@@ -58,7 +81,22 @@ export default {
       // 设置延迟计时器发送请求, 避免请求发送频繁
       this.timer = setTimeout(() => {
         this.getSearchResult('/movie/search', {q: this.inputVal})
-      }, 500)
+      }, 200)
+    },
+    // 获取定位
+    getPos () {
+      const that = this
+      const map = new Map.AMapWX({key: '08dec595f2d0ece6a8c9007f4d57a3b0'})
+      that.city = '定位中...'
+      map.getRegeo({
+        success: (res) => {
+          that.city = res[0]['regeocodeData']['addressComponent']['province']
+          that.changeProvince(that.province)
+        },
+        fail: (info) => {
+          that.city = '定位失败'
+        }
+      })
     },
     // 请求函数, 以get方式请求 参数1:请求地址, 参数2: 请求体对象
     getSearchResult (url, keyword) {
@@ -72,20 +110,69 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    }
-  }
+    },
+    ...mapMutations(['changeProvince'])
+  },
+  computed: mapState(['province'])
 }
 </script>
 
 <style scoped>
-.searchbar-result {
-  margin-top: 0;
-  font-size: 14px;
-}
-.searchbar-result:before {
-  display: none;
-}
-.weui-cell {
-  padding: 12px 15px 12px 35px;
-}
+
+  .weui-search-bar {
+    background-color: #FFF;
+  }
+
+  .custom-location {
+    font-size: 14px;
+    vertical-align:middle;
+    line-height: 28px;
+    padding-right:5px;
+  }
+
+  .custom-city {
+    display: inline-block;
+    width: 68px;
+    text-align: center;
+    color: #444;
+  }
+
+  .weui-search-bar__form {
+    border-radius: 50px;
+  }
+
+  .weui-search-bar__label {
+    border-radius: 50px;
+    transition: display 5s;
+  }
+
+  .weui-search-bar__cancel-btn {
+    font-size: 16px;
+    color: #00b600;
+    font-weight: 400;
+  }
+
+  .searchbar-result {
+    margin-top: 0;
+  }
+
+  .searchbar-result:before {
+    display: none;
+  }
+
+  .weui-cell {
+    padding: 5px 15px 5px 35px;
+    z-index:999;
+    background: rgb(255, 255, 255);
+  }
+
+  .custom-cell {
+    position: absolute;
+    width: 100%;
+
+  }
+
+  .custom-result {
+    font-size: 14px;
+  }
 </style>

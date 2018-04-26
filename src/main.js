@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import App from './App'
-// import './common/font.css'
-import './common/weui.css'
+import store from './store'
+
+import '@/common/css/font-awesome.min.css'
+import '@/common/css/weui.css'
 
 // 创建fly实例
 const Fly = require('flyio/dist/npm/wx')
@@ -20,7 +22,10 @@ Vue.prototype.$http = fly
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const app = new Vue(App)
+const app = new Vue({
+  store,
+  ...App
+})
 app.$mount()
 
 export default {
