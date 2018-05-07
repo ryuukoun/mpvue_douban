@@ -2,6 +2,9 @@
 node_modules/
 dist/
 note.txt
+dome01.js
+dome02.js
+api.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

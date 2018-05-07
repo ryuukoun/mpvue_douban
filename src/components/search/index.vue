@@ -80,7 +80,7 @@ export default {
       }
       // 设置延迟计时器发送请求, 避免请求发送频繁
       this.timer = setTimeout(() => {
-        this.getSearchResult('/movie/search', {q: this.inputVal})
+        this.getSearchResult('/search', {q: this.inputVal})
       }, 200)
     },
     // 获取定位

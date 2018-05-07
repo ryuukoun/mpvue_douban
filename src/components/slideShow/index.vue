@@ -1,10 +1,10 @@
+/**
+* 这是一个轮播图组件
+*/
 <template lang="pug">
   .page
     view.page__hd
-      view.page__title
-        span.custom-page-line
-        |
-        span.custom-page-title 影院热映
+      textTitle(:title="title")
     .page__bd.page__bd_spacing
       swiper(:indicator-dots="indicatorDots", :autoplay="autoplay", :interval="interval", :duration="duration", :circular="circular", :displayMultipleItems="displayMultipleItems", :previous-margin="previousMargin", :next-margin="nextMargin")
         div(v-for="(item, i) in movies", :key="item.id")
@@ -15,7 +15,7 @@
               span.custom-rating-star(v-for="(star, j) in [1, 2, 3, 4, 5]", :key="j")
                 i.fa.fa-star.gray(aria-hidden="true" v-if="star >= item.star")
                 i.fa.fa-star.full(aria-hidden="true" v-if="star < item.star")
-              span.custom-subject-rate {{ item.average }}
+              span.custom-subject-rate.full {{ item.average }}
             .custom-rating(v-else)
               span.custom-not-available 暂无评分
 
@@ -25,11 +25,13 @@
 
 import store from '@/store'
 import {mapState} from 'vuex'
+import textTitle from '@/components/textTitle'
 
 export default {
   store,
   data () {
     return {
+      title: '影院热映',
       autoplay: false,
       interval: 5000,
       duration: 900,
@@ -39,12 +41,16 @@ export default {
       movies: []
     }
   },
+  components: {
+    textTitle
+  },
   mounted: function () {
     this.getMovies()
   },
   methods: {
+    // 获取当前定位城市的热映电影
     getMovies () {
-      this.$http.get('/movie/in_theaters', {city: this.province.slice(0, this.province.length - 1), count: 15})
+      this.$http.get('/in_theaters', {city: this.province.slice(0, this.province.length - 1), count: 15})
       .then(result => {
         result.data.subjects.forEach(item => {
           this.movies.push({
@@ -70,7 +76,7 @@ export default {
     padding: 8px 0;
   }
 
-  .custom-page-line {
+  /* .custom-page-line {
     display: inline-block;
     width: 5px;
     height: 22px;
@@ -84,7 +90,7 @@ export default {
     display: inline-block;
     line-height: 22px;
     vertical-align:middle;
-  }
+  } */
 
   swiper {
     height: 210px;
@@ -128,7 +134,6 @@ export default {
     display: inline-block;
     font-size: 12px;
     padding: 0 5px;
-    color: #9b9b9b;
   }
 
   .swiper-image {

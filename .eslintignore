@@ -1,3 +1,6 @@
 build/*.js
 config/*.js
 src/common/sdk/*.js
+dome01.js
+dome02.js
+api.js

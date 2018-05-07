@@ -3,7 +3,7 @@ const app = new Koa()
 const router = require('koa-router')()
 const request = require('co-request')
 
-const URI = 'https://api.douban.com/v2'
+const URI = 'https://api.douban.com/v2/movie'
 router.prefix('/douban')
 router.get(['/:type', '/:type/:id'], async ctx => {
   let result

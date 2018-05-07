@@ -3,6 +3,7 @@ import App from './App'
 import store from './store'
 
 import '@/common/css/font-awesome.min.css'
+import '@/common/css/font-bin.min.css'
 import '@/common/css/weui.css'
 
 // 创建fly实例
@@ -19,6 +20,7 @@ fly.interceptors.request.use((config, promise) => {
 
 // 将fly实例挂载vue原型上
 Vue.prototype.$http = fly
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -46,11 +48,6 @@ export default {
         'iconPath': '/static/images/ic_tab_home_normal.png',
         'pagePath': 'pages/index/main',
         'text': '电影'
-      }, {
-        'selectedIconPath': '/static/images/ic_tab_subject_active.png',
-        'iconPath': '/static/images/ic_tab_subject_normal.png',
-        'pagePath': 'pages/logs/main',
-        'text': '阅读'
       }, {
         'selectedIconPath': '/static/images/ic_tab_profile_active.png',
         'iconPath': '/static/images/ic_tab_profile_normal.png',
