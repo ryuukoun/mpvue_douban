@@ -34,7 +34,7 @@ export default {
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ['pages/logs/main', '^pages/index/main'],
+    pages: ['^pages/profile/main', 'pages/index/main'],
     window: {
       navigationBarTextStyle: 'white',
       navigationBarBackgroundColor: '#11cd6e'
@@ -51,7 +51,7 @@ export default {
       }, {
         'selectedIconPath': '/static/images/ic_tab_profile_active.png',
         'iconPath': '/static/images/ic_tab_profile_normal.png',
-        'pagePath': 'pages/logs/main',
+        'pagePath': 'pages/profile/main',
         'text': '我的'
       }]
     },

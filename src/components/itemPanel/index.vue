@@ -43,9 +43,6 @@ export default {
       noData: '暂无信息'
     }
   },
-  mounted: function () {
-    console.log(this)
-  },
   computed: {
     average: function () {
       let tmp = []
@@ -59,7 +56,6 @@ export default {
           tmp.push(String(item.rating.average.toFixed(1)).split('.'))
         }
       })
-      console.log(tmp)
       return tmp
     }
   }
@@ -104,7 +100,6 @@ export default {
 .custom-grade {
   display: flex;
   align-items: flex-end;
-  /* line-height: 32px; */
 }
 
 .gray {
@@ -147,7 +142,7 @@ export default {
 }
 
 .custom-ginsyu {
-  color: 	#C73E3A;
+  color: 	#F02644;
 }
 
 .custom-space {
