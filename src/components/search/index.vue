@@ -102,14 +102,14 @@ export default {
     getSearchResult (url, keyword) {
       // 发起搜索请求
       this.$http.get(url, keyword)
-      .then(result => {
-        if (this.searchResult.length <= 5) {
-          this.searchResult = result.data.subjects.slice(0, 5)
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+        .then(result => {
+          if (this.searchResult.length <= 5) {
+            this.searchResult = result.data.subjects.slice(0, 5)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     ...mapMutations(['changeProvince'])
   },

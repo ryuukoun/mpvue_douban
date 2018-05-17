@@ -5,9 +5,8 @@
   .page
     .page__hd
       textTitle(:title="title")
-    .page__bd(v-for="(item, i) in about", :key="i")
-      itemPanel(v-bind:isMore="isMore[i]", v-bind:listData="item", v-bind:watched="watched[i]")
-
+    .page__bd(v-for="(item, i) in (isHave ? about : 2)", :key="i")
+      itemPanel(v-bind:isMore="have", v-bind:listData="item", v-bind:watched="watched[i]", v-bind:have="have")
 
 </template>
 
@@ -19,6 +18,7 @@ import itemPanel from '@/components/itemPanel'
 export default {
   data () {
     return {
+      have: false,
       title: '影片榜单',
       isMore: [true, true],
       watched: [false, true],
@@ -34,13 +34,21 @@ export default {
   },
   methods: {
     async getResult (url) {
-      return await this.$http.get(url)
-          .then(result => {
-            return result.data
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      return this.$http.get(url)
+        .then(result => {
+          return result.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  },
+  computed: {
+    isHave: function () {
+      if (this.about.length === 2) {
+        this.have = true
+      }
+      return this.have
     }
   },
   components: {
@@ -48,7 +56,6 @@ export default {
     itemPanel
   }
 }
-
 </script>
 
 <style scoped>
