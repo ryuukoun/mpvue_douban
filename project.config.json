@@ -2,7 +2,7 @@
 	"description": "项目配置文件。",
 	"setting": {
 		"urlCheck": false,
-		"es6": false,
+		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true
@@ -11,6 +11,7 @@
 	"compileType": "miniprogram",
 	"appid": "wxaa5eaec7671c0718",
 	"projectname": "douban",
+	"libVersion": "2.0.0",
 	"condition": {
 		"search": {
 			"current": -1,
