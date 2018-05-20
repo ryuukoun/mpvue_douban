@@ -55,7 +55,7 @@ export default {
   methods: {
     // 获取当前定位城市的热映电影
     getMovies () {
-      this.$http.get('/in_theaters', {city: this.province.slice(0, this.province.length - 1), count: 15})
+      this.$http.get('/in_theaters', {city: this.City.slice(0, this.City.length - 1), count: 15})
         .then(result => {
           result.data.subjects.forEach(item => {
             this.movies.push({
@@ -67,7 +67,6 @@ export default {
             })
           })
           this.have = true
-          console.log(this)
         })
     },
     jump (id) {
@@ -77,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['province'])
+    ...mapState(['City'])
   }
 }
 </script>
@@ -87,22 +86,6 @@ export default {
     margin-left: 17px;
     padding: 8px 0;
   }
-
-  /* .custom-page-line {
-    display: inline-block;
-    width: 5px;
-    height: 22px;
-    margin:0 9px 0 0;
-    background-color: #00b600;
-    vertical-align: middle;
-  }
-
-  .custom-page-title {
-    height: 22px;
-    display: inline-block;
-    line-height: 22px;
-    vertical-align:middle;
-  } */
 
   swiper {
     height: 210px;

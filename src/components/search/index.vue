@@ -19,7 +19,7 @@
         .weui-search-bar__cancel-btn(:hidden="!inputShowed", @click="hideInput") 取消
       .weui-cells.searchbar-result(v-if="searchResult.length > 0")
         .custom-cell
-          navigator.weui-cell(url="", hover-class="weui-cell_active", v-for="item in searchResult" :key="item.id")
+          navigator.weui-cell(:url="'/pages/details/main?movie_id=' + item.id", hover-class="weui-cell_active", v-for="item in searchResult", :key="item.id", @click="interactive(item.title)")
             .weui-cell__bd
               div.custom-result {{item.title}}
 
@@ -66,22 +66,33 @@ export default {
     clearInput () {
       // 点击清除搜索框时控件值为空
       this.inputVal = ''
-      // 搜索值清空
-      this.searchResult = []
+      this.reset()
     },
     inputTyping (e) {
       // 输入时
       // console.log(e)
-      // 时时更新控件值
-      this.inputVal = e.mp.detail.value
       // 判断是否有延迟计时器
       if (this.timer) {
         clearTimeout(this.timer)
       }
-      // 设置延迟计时器发送请求, 避免请求发送频繁
+      if (this.inputVal.length) {
+        this.timeoutSearch()
+      }
+    },
+    // 设置延迟计时器发送请求, 避免请求发送频繁
+    timeoutSearch () {
       this.timer = setTimeout(() => {
         this.getSearchResult('/search', {q: this.inputVal})
-      }, 200)
+      }, 500)
+    },
+    // 搜索值清空
+    reset () {
+      this.searchResult = []
+    },
+    // 交互变化
+    interactive (title) {
+      this.inputVal = title
+      this.reset()
     },
     // 获取定位
     getPos () {
@@ -90,8 +101,8 @@ export default {
       that.city = '定位中...'
       map.getRegeo({
         success: (res) => {
-          that.city = res[0]['regeocodeData']['addressComponent']['province']
-          that.changeProvince(that.province)
+          that.city = res[0]['regeocodeData']['addressComponent']['city']
+          that.changeCity(that.city)
         },
         fail: (info) => {
           that.city = '定位失败'
@@ -111,9 +122,9 @@ export default {
           console.log(error)
         })
     },
-    ...mapMutations(['changeProvince'])
+    ...mapMutations(['changeCity'])
   },
-  computed: mapState(['province'])
+  computed: mapState(['City'])
 }
 </script>
 

@@ -5,27 +5,27 @@ Vue.use(Vuex)
 
 // 定义属性
 const state = {
-  province: '上海市'
+  City: '上海市'
 }
 
 // 定义 getters
 const getters = {
-  province (state) {
-    return state.province
+  city (state) {
+    return state.City
   }
 }
 
 // 定义变化
 const mutations = {
-  changeProvince (state, province) {
-    state.province = province
+  changeCity (state, city) {
+    state.City = city
   }
 }
 
 // 定义方法
 const actions = {
-  changeProvince ({commit, state}) {
-    commit('changeProvince')
+  changeCity ({commit, state}) {
+    commit('changeCity')
   }
 }
 
