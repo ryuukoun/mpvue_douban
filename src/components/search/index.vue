@@ -19,7 +19,7 @@
         .weui-search-bar__cancel-btn(:hidden="!inputShowed", @click="hideInput") 取消
       .weui-cells.searchbar-result(v-if="searchResult.length > 0")
         .custom-cell
-          navigator.weui-cell(:url="'/pages/details/main?movie_id=' + item.id", hover-class="weui-cell_active", v-for="item in searchResult", :key="item.id", @click="interactive(item.title)")
+          navigator.weui-cell(:url="'/pages/details/main?movie_id=' + item.id", hover-class="weui-cell_active", v-for="item in searchResult", :key="item.id", @click="interactive(item.title)", :bindconfirm="jump")
             .weui-cell__bd
               div.custom-result {{item.title}}
 
@@ -121,6 +121,11 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    jump () {
+      wx.navigateTo({
+        url: '/pages/list/main?url=' + this.url + '&q=' + this.inputVal + '&watched=' + (this.watched ? 1 : 0)
+      })
     },
     ...mapMutations(['changeCity'])
   },

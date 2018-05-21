@@ -3,9 +3,9 @@
 */
 <template lang="pug">
   .weui-panel.weui-panel_access
-    .weui-panel__hd(v-show="listData.title") {{ listData.title }}
+    .weui-panel__hd(v-show="isMore&&have") {{ listData.title }}
     .weui-panel__bd
-      navigator.weui-media-box.weui-media-box_appmsg.custom-layout(:url="'/pages/details/main?movie_id=' + item.id", hover-class="weui-cell_active", v-for="(item, j) in (have ? listData.subjects : 5)", :key="item.id")
+      navigator.weui-media-box.weui-media-box_appmsg.custom-layout(:url="'/pages/details/main?movie_id=' + item.id", hover-class="weui-cell_active", v-for="(item, j) in (have ? listData.subjects : num)", :key="item.id")
         .custom-basic(v-if="have")
           .weui-media-box__hd.weui-media-box__hd_in-appmsg.custom-thumb
             image.weui-media-box__thumb(:src="item.images.small")
@@ -15,7 +15,7 @@
               .custom-synopsis
                 .custom-year(v-if="item.year") 年份: {{ item.year }}
                 .gray.custom-year(v-else) 年份: {{ noData }}
-                .custom-directors(v-if="item.directors[0].name") 导演: {{ item.directors[0].name }}
+                .custom-directors(v-if="item.directors.length") 导演: {{ item.directors[0].name }}
                 .gray.custom-directors(v-else) 导演: {{ noData }}
                 .custom-genres(v-if="item.genres") 类型:
                   span.custom-tags(v-for="(tag, i) in item.genres", :key="i") {{ i != item.genres.length - 1 ? tag + " /" : tag }}
@@ -31,8 +31,8 @@
                   span.collectCount {{ item.collect_count }}
         .custom-loading(v-else)
           BallSpinFadeLoader(size="12px", color="#11cd6e")
-    .weui-panel__ft(v-show="isMore")
-      .weui-cell.weui-cell_access.weui-cell_link
+    .weui-panel__ft(v-if="isMore")
+      .weui-cell.weui-cell_access.weui-cell_link(@click="getList")
         .weui-cell__bd 查看更多
         .weui-cell__ft.weui-cell__ft_in-access
 
@@ -43,7 +43,7 @@
 import BallSpinFadeLoader from 'mpvue-loading/src/loaders/ball-spin-fade'
 
 export default {
-  props: ['isMore', 'listData', 'watched', 'have'],
+  props: ['isMore', 'listData', 'watched', 'have', 'num', 'url'],
   data () {
     return {
       noData: '暂无信息'
@@ -66,6 +66,13 @@ export default {
         }
       })
       return tmp
+    }
+  },
+  methods: {
+    getList () {
+      wx.navigateTo({
+        url: '/pages/list/main?url=' + this.url + '&watched=' + (this.watched ? 1 : 0)
+      })
     }
   }
 }

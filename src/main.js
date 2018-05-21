@@ -37,7 +37,8 @@ export default {
     pages: ['^pages/index/main'],
     window: {
       navigationBarTextStyle: 'white',
-      navigationBarBackgroundColor: '#11cd6e'
+      navigationBarBackgroundColor: '#11cd6e',
+      enablePullDownRefresh: true
     },
     tabBar: {
       'color': '#a9b7b7',

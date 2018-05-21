@@ -6,7 +6,7 @@
     .page__hd
       textTitle(:title="title")
     .page__bd(v-for="(item, i) in (isHave ? about : 2)", :key="i")
-      itemPanel(v-bind:isMore="have", v-bind:listData="item", v-bind:watched="watched[i]", v-bind:have="have")
+      itemPanel(v-bind:isMore="isMore[i]", v-bind:listData="item", v-bind:watched="watched[i]", v-bind:have="have", v-bind:num="num", v-bind:url="url[i]")
 
 </template>
 
@@ -23,13 +23,15 @@ export default {
       isMore: [true, true],
       watched: [false, true],
       about: [],
-      url: ['/coming_soon?count=10', '/top250?count=10']
+      url: ['/coming_soon', '/top250'],
+      count: [10, 10],
+      num: 10
     }
   },
   mounted: function () {
     const that = this
     this.url.forEach(async (item, index) => {
-      that.about.push(await that.getResult(item))
+      that.about.push(await that.getResult(item + '?count=' + that.count[index]))
     })
   },
   methods: {
