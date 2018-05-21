@@ -1,21 +1,21 @@
 # douban
 
-> A Mpvue project
+> 基于mpvue来练手的一个小项目。
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# 安装所需依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 开启本地代理
+npm run proxy
+
+# 开发模式
 npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+![预览图1](./other/20180521143801.png)
+![预览图2](./other/20180521143853.png)
+![预览图3](./other/20180521143802.png)
+![预览图4](./other/20180521143814.png)
+![预览图5](./other/20180521143824.png)
